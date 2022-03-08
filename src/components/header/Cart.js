@@ -12,10 +12,10 @@ const Cart = ({total,getToTalCart}) => {
       totalAmountInCart += item.amount;
   });
   useEffect(() => {
-    getToTalCart(getCartItems())
+    getToTalCart()
   
    
-  }, [])
+  }, [total])
   
   return (
     <div className="side-nav-cart mr-5">

@@ -8,13 +8,12 @@ import {
   removeCartItems,
   setCartItems,
 } from "../../../utils/storeSession";
-import Loading from '../../utils/Loading/Loading'
+import Loading from "../../utils/Loading/Loading";
 import { fCurrency } from "../../utils/FormatCost";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-  
 
 const DetailProduct = ({ match }) => {
   const [product, setProduct] = useState(null);
@@ -24,7 +23,7 @@ const DetailProduct = ({ match }) => {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
   const tangSoLuong = () => {
     setQuantity(quantity + 1);
@@ -95,7 +94,7 @@ const DetailProduct = ({ match }) => {
         pauseOnHover
       />
       {/* Same as */}
-      <Loading/>
+      <Loading />
       <div>
         <div className="inner-banner-area">
           <div className="container">
@@ -128,39 +127,39 @@ const DetailProduct = ({ match }) => {
               <div className="col-lg-6 col-md-12">
                 <div className="product-detls-image">
                   <Slider {...settings}>
-                    {product && product.image.$values && product.image.$values.map((item,index)=>{
-                      return (
-                        <>
-                        <div>
-      <img
-                    width={"100%"}
-                    src={
-                      product &&
-                      `https://localhost:44349/uploads/${product.image.$values[index]}`
-                    }
-                    alt="Image"
-                  />
-      </div>
-                        </>
-                      )
-                    })}
-      
-     
-      
-    </Slider>
+                    {product &&
+                      product.image.$values &&
+                      product.image.$values.map((item, index) => {
+                        return (
+                          <>
+                          
+                              <img
+                                width={"100%"}
+                                src={
+                                  product &&
+                                  `https://localhost:44349/uploads/${product.image.$values[index]}`
+                                }
+                                alt="Image"
+                              />
+                          
+                          </>
+                        );
+                      })}
+                  </Slider>
                 </div>
               </div>
-              <div className="col-lg-6 col-md-12">
+              <div className="col-lg-6 col-md-12 detail-pro">
                 <div className="product-desc">
                   <h3>{product && product.product.name}</h3>
                   <div className="price">
                     {product && product.product.priceSale > 0 ? (
                       <>
                         <span className="new-price">
-                          {product && fCurrency(product.product.priceSale *1000)}
+                          {product &&
+                            fCurrency(product.product.priceSale * 1000)}
                         </span>
                         <span className="old-price">
-                          {product && fCurrency(product.product.price *1000)}
+                          {product && fCurrency(product.product.price * 1000)}
                         </span>
                       </>
                     ) : (
@@ -171,6 +170,7 @@ const DetailProduct = ({ match }) => {
                       </>
                     )}
                   </div>
+                  <p> {product && product.product.description}</p>
                   <div className="input-count-area">
                     <h3>Số lượng</h3>
                     <div className="input-counter">
@@ -200,34 +200,7 @@ const DetailProduct = ({ match }) => {
             </div>
           </div>
         </div>
-        <div className="product-tab pb-70">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12 col-md-12">
-                <div className="tab products-details-tab">
-                  <div className="row">
-                    <div className="col-lg-12 col-md-12">
-                      <ul className="tabs">
-                        <li>
-                          <a href="#">Mô tả</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="col-lg-12 col-md-12">
-                      <div className="tab_content current active pt-45">
-                        <div className="tabs_item current">
-                          <div className="products-tabs-decs">
-                            <p> {product && product.product.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
       <RelatedProduct
         categoryId={product && product.product.categoryId}

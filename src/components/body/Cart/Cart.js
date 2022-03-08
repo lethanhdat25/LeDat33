@@ -38,6 +38,7 @@ const Cart = () => {
       setCart(data);
     }
   };
+
   useEffect(() => {
     cart.forEach((item) => {
       setAmount((state) => [...state, item.amount]);
@@ -176,6 +177,9 @@ const Cart = () => {
 };
 const [checkValidity, setCheckValidity] = useState(true);
   const handleSubmitForm = async () => {
+    if(phoneNumber.length !== 10){
+      return toast.error('Số điện thoại bắt buộc chứa 10 ký tự')
+    }
     console.log(user)
     const billData = {
       total: subTotal + ship,
@@ -225,8 +229,6 @@ const [checkValidity, setCheckValidity] = useState(true);
           required=""
           value={selectProvince}
           onChange={(e) => {
-            const indexOfWard = e.target.value;
-            setUserProvince(provinces[indexOfWard].name);
             setSelectProvince(e.target.value);
           }}
         >
@@ -433,6 +435,8 @@ const [checkValidity, setCheckValidity] = useState(true);
                   </div>
                   <div className="row">
                     <div className="col-lg-6">
+                     {cart && cart.length > 0 && 
+                     <>
                       <div className="cart-totals">
                         <h3>Tổng số giỏ hàng</h3>
                         <ul>
@@ -458,6 +462,7 @@ const [checkValidity, setCheckValidity] = useState(true);
                           Đặt hàng
                         </button>
                       </div>
+                     </>}
                     </div>
                   </div>
                 </form>

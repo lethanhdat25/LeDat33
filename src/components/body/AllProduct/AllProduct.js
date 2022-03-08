@@ -13,24 +13,30 @@ import { getToTalCart } from '../../../redux/actions/productAction';
 const AllProduct = ({listProducts,getAllProduct,getToTalCart}) => {
   const [paCur,setPaCur] = useState(1)
   const [total,setTotal] = useState(0)
+  const [buttonPag,setButtonPag] = useState(0)
   const [products,setProducts] = useState([])
+  const [isAdd,setIsAdd] = useState(0)
 
     useEffect(() => {
+      pagination()
         getAllProduct();
-      }, []);
+      }, [total]);
+      useEffect(() => {
+        getToTalCart(getCartItems())
+        }, [isAdd]);
       useEffect(() => {
         getData();
       }, [paCur,listProducts]);
       const getData = ()=>{
         let data = []
         if(paCur === 1){
-          for (let index = 0; index < 8; index++) {
+          for (let index = 0; index < 9; index++) {
             if(listProducts[index]){
               data.push(listProducts[index])
             }
           }
         }else if(paCur > 1){
-          for (let index = paCur * 8 - 8; index < paCur * 8; index++) {
+          for (let index = paCur * 8 - 7; index < paCur * 8; index++) {
             if(listProducts[index]){
             data.push(listProducts[index])
             }
@@ -62,6 +68,8 @@ const AllProduct = ({listProducts,getAllProduct,getToTalCart}) => {
         setPaCur(data)
     }
       const handleAddToCart = (item) => {
+        let isCart = isAdd + 1;
+        setIsAdd(isCart)
         let id = item.product.id;
         let price = 0;
         if (item.product.priceSale > 0) {
@@ -82,7 +90,7 @@ const AllProduct = ({listProducts,getAllProduct,getToTalCart}) => {
           });
           toast.success("Cập nhật giỏ hàng");
          
-          getToTalCart(getCartItems())
+          getToTalCart()
         } else {
           cartItems.push({
             id: item.product.id,
@@ -92,20 +100,24 @@ const AllProduct = ({listProducts,getAllProduct,getToTalCart}) => {
             price: price,
           });
           toast.success("Thêm giỏ hàng thành công");
-          getToTalCart(cartItems.length)
+          getToTalCart()
         }
     
         removeCartItems();
         setCartItems(cartItems);
       };
       const pagination = ()=>{
-        for (let index = 1; index >= total; index++) {
-          if(index === paCur){
-            return <span className="page-numbers current" aria-current="page">{index}</span>
-          }else{
-            return <a onClick={()=>handleSetPageCu(index)} href="#" className="page-numbers">{index}</a>
-          }
-          
+        let data = []
+        for (let index = 1; index <= total; index++) {
+          // if(index === paCur){
+          //   return <span className="page-numbers current" aria-current="page">{index}</span>
+          // }else{
+          //   return <a onClick={()=>handleSetPageCu(index)} href="#" className="page-numbers">{index}</a>
+          // }
+          data.push(index)
+        }
+        if(data.length > 0){
+          setButtonPag(data)
         }
       }
   return (
@@ -203,8 +215,14 @@ const AllProduct = ({listProducts,getAllProduct,getToTalCart}) => {
             <a onClick={handlePrevPage} href="#" className="prev page-numbers">
               <i className="bx bx-chevron-left" />
             </a>
-            {pagination()}
-            
+            {/* {pagination()} */}
+            {buttonPag&& buttonPag.length > 0 && buttonPag.map((item,index)=>{
+              if(index + 1 == paCur){
+                return <span className="page-numbers current" aria-current="page">{index + 1}</span>
+              }else{
+                return <a onClick={()=>handleSetPageCu(index + 1)} href="#" className="page-numbers">{index + 1}</a>
+              }
+            })}
             <a onClick={handleNextPage} href="#" className="next page-numbers">
               <i className="bx bx-chevron-right" />
             </a>
