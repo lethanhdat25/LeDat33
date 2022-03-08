@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { Link,NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -18,6 +18,20 @@ function Header() {
     }
   };
 
+  const [users,setUser] = useState({
+    name:'',
+    gmail:'',
+    phoneNumber : '',
+  })
+  useEffect(() => {
+    if(isLogged){
+      setUser({
+        name: localStorage.getItem("name"),
+        gmail: localStorage.getItem("gmail"),
+        phoneNumber: localStorage.getItem("phoneNumber")
+      })
+    }
+  }, [isLogged]);
   const userLink = () => {
     return (
       <>
@@ -123,9 +137,31 @@ function Header() {
 <Cart/>
                 <div className="side-nav-cart">
                   {isLogged ? (
-                    <a href="#" onClick={handleLogout} >
-                      <i className="bx bx-user" />  Đăng xuất
-                    </a>
+                    <ul className="navbar-nav mr-auto">
+                      <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    {users.name}
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                        Email: {users.gmail}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                        SDT: {users.phoneNumber}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a onClick={handleLogout} href="#" class="nav-link">
+                                           Đăng xuất
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                    </ul>
                   ) : (
                     <Link to="/login">
                       <i className="bx bx-user" /> Đăng nhập

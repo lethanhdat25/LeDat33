@@ -1996,6 +1996,7 @@ img {
 }
 .popular-product-item a img {
   height: 200px;
+  width: 100%;
 }
 .popular-product-item .popular-product-tag {
   position: absolute;
@@ -3649,6 +3650,7 @@ img {
 .product-item .product-img a img {
   padding: 30px;
   height: 300px;
+  width: 100%;
 }
 .product-item .product-img .product-item-tag {
   position: absolute;

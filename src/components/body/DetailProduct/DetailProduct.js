@@ -11,10 +11,21 @@ import {
 import Loading from '../../utils/Loading/Loading'
 import { fCurrency } from "../../utils/FormatCost";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+  
+
 const DetailProduct = ({ match }) => {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
   const tangSoLuong = () => {
     setQuantity(quantity + 1);
   };
@@ -116,14 +127,27 @@ const DetailProduct = ({ match }) => {
             <div className="row align-items-center">
               <div className="col-lg-6 col-md-12">
                 <div className="product-detls-image">
-                  <img
+                  <Slider {...settings}>
+                    {product && product.image.$values && product.image.$values.map((item,index)=>{
+                      return (
+                        <>
+                        <div>
+      <img
                     width={"100%"}
                     src={
                       product &&
-                      `https://localhost:44349/uploads/${product.image.$values[0]}`
+                      `https://localhost:44349/uploads/${product.image.$values[index]}`
                     }
                     alt="Image"
                   />
+      </div>
+                        </>
+                      )
+                    })}
+      
+     
+      
+    </Slider>
                 </div>
               </div>
               <div className="col-lg-6 col-md-12">

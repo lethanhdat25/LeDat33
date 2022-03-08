@@ -10,8 +10,9 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fCurrency } from "../../utils/FormatCost";
+import { getToTalCart } from "../../../redux/actions/productAction";
 
-const Product = ({ getAllProduct, listProducts }) => {
+const Product = ({ getAllProduct, listProducts,getToTalCart }) => {
   useEffect(() => {
     getAllProduct();
   }, []);
@@ -35,6 +36,7 @@ const Product = ({ getAllProduct, listProducts }) => {
         price: price,
       });
       toast.success("Cập nhật giỏ hàng");
+      getToTalCart(getCartItems())
     } else {
       cartItems.push({
         id: item.product.id,
@@ -44,6 +46,7 @@ const Product = ({ getAllProduct, listProducts }) => {
         price: price,
       });
       toast.success("Thêm giỏ hàng thành công");
+      getToTalCart(getCartItems())
     }
 
     removeCartItems();
@@ -153,6 +156,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getAllProduct,
+  getToTalCart
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

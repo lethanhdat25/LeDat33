@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import { connect } from "react-redux";
 import { getAllProduct } from "../../../redux/actions/productAction";
 import { Link } from 'react-router-dom';
@@ -7,12 +7,60 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from '../../utils/Loading/Loading'
 import { fCurrency } from '../../utils/FormatCost';
+import { getToTalCart } from '../../../redux/actions/productAction';
 
 
-const AllProduct = ({listProducts,getAllProduct}) => {
+const AllProduct = ({listProducts,getAllProduct,getToTalCart}) => {
+  const [paCur,setPaCur] = useState(1)
+  const [total,setTotal] = useState(0)
+  const [products,setProducts] = useState([])
+
     useEffect(() => {
         getAllProduct();
       }, []);
+      useEffect(() => {
+        getData();
+      }, [paCur,listProducts]);
+      const getData = ()=>{
+        let data = []
+        if(paCur === 1){
+          for (let index = 0; index < 8; index++) {
+            if(listProducts[index]){
+              data.push(listProducts[index])
+            }
+          }
+        }else if(paCur > 1){
+          for (let index = paCur * 8 - 8; index < paCur * 8; index++) {
+            if(listProducts[index]){
+            data.push(listProducts[index])
+            }
+          }
+        }
+        if(data){
+          setProducts(data)
+        }
+        if(listProducts && listProducts.length % 8 === 0){
+          setTotal(Math.floor(listProducts.length / 8))
+        }else{
+          setTotal(Math.floor((listProducts.length / 8) + 1))
+        }
+      }
+
+      const handleNextPage = ()=>{
+        if(paCur < total){
+          let data = paCur + 1;
+          setPaCur(data)
+        }
+      }
+      const handlePrevPage = ()=>{
+        if(paCur > 1){
+          let data = paCur - 1;
+          setPaCur(data)
+        }
+      }
+      const handleSetPageCu =(data)=>{
+        setPaCur(data)
+    }
       const handleAddToCart = (item) => {
         let id = item.product.id;
         let price = 0;
@@ -33,6 +81,8 @@ const AllProduct = ({listProducts,getAllProduct}) => {
             price: price,
           });
           toast.success("Cập nhật giỏ hàng");
+         
+          getToTalCart(getCartItems())
         } else {
           cartItems.push({
             id: item.product.id,
@@ -42,11 +92,22 @@ const AllProduct = ({listProducts,getAllProduct}) => {
             price: price,
           });
           toast.success("Thêm giỏ hàng thành công");
+          getToTalCart(cartItems.length)
         }
     
         removeCartItems();
         setCartItems(cartItems);
       };
+      const pagination = ()=>{
+        for (let index = 1; index >= total; index++) {
+          if(index === paCur){
+            return <span className="page-numbers current" aria-current="page">{index}</span>
+          }else{
+            return <a onClick={()=>handleSetPageCu(index)} href="#" className="page-numbers">{index}</a>
+          }
+          
+        }
+      }
   return (
     <><Loading/>
            <ToastContainer
@@ -103,12 +164,13 @@ const AllProduct = ({listProducts,getAllProduct}) => {
         </div>
       </div>
       <div className="row">
-      {listProducts &&
-            listProducts.length > 0 &&
-            listProducts.map((item, index) => {
+      {products &&
+            products.length > 0 &&
+            products.map((item, index) => {
+              if(item.product.name){
                 return(
                     <>
-                            <div className="col-lg-4 col-sm-6">
+                            <div className="col-lg-3 col-sm-6">
           <div className="product-item">
             <div className="product-img">
               <Link to={`/detail-products/${item.product.id}`}>
@@ -130,6 +192,7 @@ const AllProduct = ({listProducts,getAllProduct}) => {
         </div>
                     </>
                 )
+              }
 
             }
             
@@ -137,13 +200,12 @@ const AllProduct = ({listProducts,getAllProduct}) => {
 
         <div className="col-lg-12 col-md-12 text-center">
           <div className="pagination-area">
-            <a href="#" className="prev page-numbers">
+            <a onClick={handlePrevPage} href="#" className="prev page-numbers">
               <i className="bx bx-chevron-left" />
             </a>
-            <span className="page-numbers current" aria-current="page">1</span>
-            <a href="#" className="page-numbers">2</a>
-            <a href="#" className="page-numbers">3</a>
-            <a href="#" className="next page-numbers">
+            {pagination()}
+            
+            <a onClick={handleNextPage} href="#" className="next page-numbers">
               <i className="bx bx-chevron-right" />
             </a>
           </div>
@@ -163,6 +225,7 @@ const mapStateToProps = (state) => ({
   
   const mapDispatchToProps = {
     getAllProduct,
+    getToTalCart
   };
   
   export default connect(mapStateToProps, mapDispatchToProps)(AllProduct);

@@ -9,8 +9,10 @@ import {
   setCartItems,
 } from "../../../utils/storeSession";
 import { fCurrency } from "../../utils/FormatCost";
+import { getToTalCart } from "../../../redux/actions/productAction";
+import { connect } from "react-redux";
 
-const RelatedProduct = ({ categoryId, id }) => {
+const RelatedProduct = ({ categoryId, id,getToTalCart }) => {
   const [product, setProduct] = useState(null);
   const getProduct = async () => {
     await axios
@@ -44,6 +46,7 @@ const RelatedProduct = ({ categoryId, id }) => {
         price: price,
       });
       toast.success("Cập nhật giỏ hàng");
+      getToTalCart(getCartItems())
     } else {
       cartItems.push({
         id: item.product.id,
@@ -53,6 +56,7 @@ const RelatedProduct = ({ categoryId, id }) => {
         price: price,
       });
       toast.success("Thêm giỏ hàng thành công");
+      getToTalCart(getCartItems())
     }
 
     removeCartItems();
@@ -133,4 +137,13 @@ const RelatedProduct = ({ categoryId, id }) => {
   );
 };
 
-export default RelatedProduct;
+const mapStateToProps = (state) => ({
+  
+});
+
+const mapDispatchToProps = {
+  
+  getToTalCart
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RelatedProduct);

@@ -7,6 +7,7 @@ import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
 import Body from './components/body/Body'
 import axios from 'axios';
+import OnTop from './components/OnTop';
 
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
         <Body />
         </main>
         <Footer/>
-     
+     <OnTop/>
     </Router>
   );
 }

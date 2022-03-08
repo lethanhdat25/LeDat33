@@ -6,6 +6,7 @@ const ACTIONS = {
     // Product
     GET_ALL_PRODUCT:'GET_ALL_PRODUCT',
     ADD_CART:'ADD_CART',
+    GET_TOTAL_CART:'GET_TOTAL_CART'
 }
 
 export default ACTIONS
