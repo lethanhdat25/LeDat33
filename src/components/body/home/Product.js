@@ -75,7 +75,7 @@ const Product = ({ getAllProduct, listProducts,getToTalCart }) => {
           {listProducts &&
             listProducts.length > 0 &&
             listProducts.map((item, index) => {
-              if (index < 7) {
+              if (index < 9 && item.product.name) {
                 return (
                   <>
                     <div
@@ -84,7 +84,7 @@ const Product = ({ getAllProduct, listProducts,getToTalCart }) => {
                       data-bound
                     >
                       <div className="popular-product-item" height={'300px'}>
-                      <Link to={`/detail-products/${item.product.id}`}>
+                      <Link className={'image-product'} to={`/detail-products/${item.product.id}`}>
                           <img
                             src={`https://localhost:44349/uploads/${item.image}`}
                             alt="Product Images"
@@ -97,7 +97,7 @@ const Product = ({ getAllProduct, listProducts,getToTalCart }) => {
                           <h3>
                           <Link to={`/detail-products/${item.product.id}`}>{item.product.name}</Link>
                           </h3>
-                          <span>{item.product.priceSale > 0 ? <>{fCurrency(item.product.priceSale * 1000)}  <del>{fCurrency(item.product.price * 1000)}</del></> : <>{fCurrency(item.product.price * 1000)}</>}</span>
+                          <span>{item.product.priceSale > 0 ? <>{fCurrency(item.product.priceSale * 1000)} / {item.product.dvt} / {item.product.weight}  <del>{fCurrency(item.product.price * 1000)}</del></> : <>{fCurrency(item.product.price * 1000)} / {item.product.dvt} / {item.product.weight} </>}</span>
                           <ul className="popular-product-action">
                             <li>
                             <Link to={`/detail-products/${item.product.id}`}>

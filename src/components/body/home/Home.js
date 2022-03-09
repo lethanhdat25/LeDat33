@@ -2,12 +2,21 @@ import React from "react";
 import Banner from "./Banner";
 import Product from "./Product";
 import Loading from "../../utils/Loading/Loading";
+import Brand from "./Brand";
+import Offer from "./Offer";
+import PopularProduct from "./PopularProduct";
+import Choose from "./Choose";
+import Blog from "./Blog";
 
 function Home() {
   return (
     <>
     <Loading/>
       <Banner />
+      <Brand/>
+      <Offer/>
+      <PopularProduct/>
+      <Choose/>
       <Product />
       <div className="newsletter-area-section-3 newsletter-area-section-bg pt-100 pb-70">
         <div className="container">
@@ -58,6 +67,7 @@ function Home() {
           </div>
         </div>
       </div>
+      <Blog/>
     </>
   );
 }
