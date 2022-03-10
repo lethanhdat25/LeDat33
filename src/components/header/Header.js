@@ -2,101 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import Cart from "./Cart";
+import {getSessionStorage} from '../../utils/sessionStorage';
 
 function Header() {
-  const auth = useSelector((state) => state.auth);
-
-  const { user, isLogged } = auth;
-
   const handleLogout = async () => {
-    try {
       localStorage.clear();
       window.location.href = "/";
-    } catch (err) {
-      window.location.href = "/";
-    }
   };
   const [open, setOpen] = useState(false);
-  const [users, setUser] = useState({
-    name: "",
-    gmail: "",
-    phoneNumber: "",
-  });
-  useEffect(() => {
-    if (isLogged) {
-      setUser({
-        name: localStorage.getItem("name"),
-        gmail: localStorage.getItem("gmail"),
-        phoneNumber: localStorage.getItem("phoneNumber"),
-      });
-    }
-  }, [isLogged]);
+  const [users,setUser] = useState();
   const handleChangeOpen = () => {
     setOpen(!open);
   };
-  const userLink = () => {
-    return (
-      <>
-        {/* <div
-          className="user_dropdown rotors_dropdown dropdown-menu clearfix"
-          aria-labelledby="user_dropdown"
-        >
-          <div className="profile_info clearfix">
-            <a href="#!" className="user_thumbnail">
-              <img src={user.avatar} alt="thumbnail_not_found" />
-            </a>
-            <div className="user_content">
-              <h4 className="user_name">
-                <Link to="/">{user.name}</Link>
-              </h4>
-              <span className="user_title">
-                {user.role === 1 ? "Admin" : "User"}
-              </span>
-            </div>
-          </div>
-          <ul className="ul_li_block clearfix">
-            <li>
-              <Link to="/">
-                <i className="fal fa-user-circle" /> Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/profile">
-                <i className="fal fa-user-cog" /> Settings
-              </Link>
-            </li>
-            {isAdmin &&  <li>
-              <Link to="/manage-province">
-                Manage Province
-              </Link>
-            </li>}
-            <li>
-              <Link to="/" onClick={handleLogout}>
-                <i className="fal fa-sign-out" /> Logout
-              </Link>
-            </li>
-          </ul>
-        </div> */}
-      </>
-    );
-  };
 
+  useEffect(()=>{
+    setUser(getSessionStorage().name);
+  },[getSessionStorage().name])
+  console.log(users);
   return (
-    // <header>
-    //     <div className="logo">
-    //         <h1><Link to="/">DevAT✮Shop</Link></h1>
-    //     </div>
-
-    //     <ul style={transForm}>
-    //         <li><Link to="/"><i className="fas fa-shopping-cart"></i> Cart</Link></li>
-    //         {
-    //             isLogged
-    //             ? userLink()
-    //             :<li><Link to="/login"><i className="fas fa-user"></i> Sign in</Link></li>
-    //         }
-
-    //     </ul>
-    // </header>
     <div className="navbar-area">
       <div className="mobile-nav mean-container">
         <div className="mean-bar">
@@ -232,7 +155,7 @@ function Header() {
           <div className="nav-bar-side-2">
             <Cart />
             <div className="side-nav-cart">
-              {isLogged ? (
+              {users ? (
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
                     <a href="#" className="nav-link active">
@@ -322,36 +245,17 @@ function Header() {
               </ul>
               <div className="nav-bar-side-2">
                 <Cart />
-                <div className="side-nav-cart">
-                  {isLogged ? (
+                <div className="side-nav-cart" >
+                  {users ? (
                     <ul className="navbar-nav mr-auto">
+                      <Link to="/my_account">
                       <li className="nav-item">
                         <a href="#" className="nav-link active">
-                          {users.name}
+                          {users}
                           <i className="bx bx-chevron-down"></i>
                         </a>
-                        <ul className="dropdown-menu">
-                          <li className="nav-item">
-                            <a href="#" className="nav-link">
-                              Email: {users.gmail}
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a href="#" className="nav-link">
-                              SDT: {users.phoneNumber}
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a
-                              onClick={handleLogout}
-                              href="#"
-                              className="nav-link"
-                            >
-                              Đăng xuất
-                            </a>
-                          </li>
-                        </ul>
                       </li>
+                      </Link>
                     </ul>
                   ) : (
                     <Link to="/login">

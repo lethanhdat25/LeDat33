@@ -8,6 +8,7 @@ import Footer from './components/footer/Footer'
 import Body from './components/body/Body'
 import axios from 'axios';
 import OnTop from './components/OnTop';
+import ScrollToTop from './ScrollTop';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <Router>
+        <ScrollToTop/>
         <Header />
         <main>
         <Body />

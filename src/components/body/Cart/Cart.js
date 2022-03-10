@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import {Link,} from 'react-router-dom';
 import axios from "axios";
 import {
-  getCartItems,
+  getCartItems, getSessionStorage,
   removeCartItems,
   setCartItems,
-} from "../../../utils/storeSession";
+} from '../../../utils/storeSession';
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
   import Loading from '../../utils/Loading/Loading'
+import {fCurrency} from '../../utils/FormatCost';
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
-  const [ship, setShip] = useState(30);
+  const [ship] = useState(30);
   const [amount, setAmount] = useState([]);
+  const [isOrder, setIsOrder] = useState(false);
   const resetCartItems = (id, amount) => {
     const newCartItems = cart.map((item) => {
       if (item.id === id) {
+
         return {
           ...item,
           amount: amount,
@@ -28,6 +30,7 @@ const Cart = () => {
     removeCartItems();
     setCartItems(newCartItems);
   };
+
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setAddress(value)
@@ -83,22 +86,17 @@ const Cart = () => {
     }
   };
   const handleCacul = () => {
-    let data = 0;
-    for (let index = 0; index < cart.length; index++) {
-      data += cart[index].amount * cart[index].price;
-    }
-    setSubTotal(data);
+    const cartInSession=getCartItems();
+    let total=0;
+    cartInSession.forEach(item=>total+=item.amount*item.price)
+    setSubTotal(total);
   };
   // Form
   const [user, setUser] = useState({});
-  const [amounts, setAmounts] = useState([]);
   const [name, setName] = useState("");
   const [gmail, setGmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [userProvince, setUserProvince] = useState("");
-  const [userDistrict, setUserDistrict] = useState("");
-  const [userWard, setUserWard] = useState("");
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -114,6 +112,7 @@ const Cart = () => {
     fetchData();
     fetchUser();
   }, [gmail]);
+
   useEffect(() => {
     if(user){
       setAddress(user.userAddress)
@@ -176,7 +175,9 @@ const Cart = () => {
     return false;
 };
 const [checkValidity, setCheckValidity] = useState(true);
+
   const handleSubmitForm = async () => {
+
     if(phoneNumber.length !== 10){
       return toast.error('Số điện thoại bắt buộc chứa 10 ký tự')
     }
@@ -193,22 +194,17 @@ const [checkValidity, setCheckValidity] = useState(true);
             const billRes = await axios.post('https://localhost:44349/api/Bills',billData);
 
             await getCartItems().forEach( (item, index) => {
-                const cartRes =  axios.post('https://localhost:44349/api/Carts',{
+                 axios.post('https://localhost:44349/api/Carts',{
                         amount: item.amount,
                         productId: item.id,
                         billId: billRes.data.id,
                         price: cart[index].price
-                    })
-                
-
+                 })
             });
 
-            // const editUserRes = await axios.put(`https://localhost:44349/api/Accounts/${user.id}`,{
-            //     accountPassword:user.accountPassword,
-            //     userAddress:`${address} - ${userWard} - ${userDistrict} - ${userProvince}`
-            // })
             removeCartItems()
-            getData()
+            getData();
+            window.location.href='/products';
             toast.success('Đặt hàng thành công')
         } catch (e) {
             console.log(e);
@@ -254,7 +250,6 @@ const [checkValidity, setCheckValidity] = useState(true);
           value={selectDistrict}
           onChange={(e) => {
             const indexOfWard = e.target.value;
-            setUserDistrict(districts[selectProvince][indexOfWard].name);
             setSelectDistrict(e.target.value);
           }}
         >
@@ -280,9 +275,6 @@ const [checkValidity, setCheckValidity] = useState(true);
           value={selectWard}
           onChange={(e) => {
             const indexOfWard = e.target.value;
-            setUserWard(
-              wards[selectProvince][selectDistrict][indexOfWard].name
-            );
             setSelectWard(indexOfWard);
           }}
         >
@@ -364,7 +356,7 @@ const [checkValidity, setCheckValidity] = useState(true);
                                     </td>
                                     <td className="product-price">
                                       <span className="unit-amount">
-                                        ${item.price}
+                                        {fCurrency(item.price*1000)}
                                       </span>
                                     </td>
                                     <td className="product-quantity">
@@ -401,7 +393,7 @@ const [checkValidity, setCheckValidity] = useState(true);
                                     </td>
                                     <td className="product-subtotal">
                                       <span className="subtotal-amount">
-                                        ${item.price * amount[index]}
+                                        {fCurrency(item.price * amount[index]*1000)}
                                       </span>
                                       <a
                                         onClick={() => removeItemCart(index)}
@@ -441,15 +433,15 @@ const [checkValidity, setCheckValidity] = useState(true);
                         <h3>Tổng số giỏ hàng</h3>
                         <ul>
                           <li>
-                            Tổng phụ <span>${subTotal}</span>
+                            Tổng phụ <span>{fCurrency(subTotal*1000)}</span>
                           </li>
                           <li>
-                            Phí ship <span>${ship}</span>
+                            Phí ship <span>{fCurrency(ship*1000)}</span>
                           </li>
                           <li>
                             Tổng tiền{" "}
                             <span>
-                              <b>${subTotal + ship}</b>
+                              <b>{fCurrency((subTotal + ship)*1000)}</b>
                             </span>
                           </li>
                         </ul>
@@ -458,6 +450,10 @@ const [checkValidity, setCheckValidity] = useState(true);
                           data-bs-toggle="modal"
                           data-bs-target="#exampleModal"
                           className="default-btn btn-bg-three"
+                          onClick={()=>{
+                            setIsOrder(true);
+                            if (getSessionStorage().name===null) return window.location.href='/login';
+                          }}
                         >
                           Đặt hàng
                         </button>
@@ -472,13 +468,13 @@ const [checkValidity, setCheckValidity] = useState(true);
         </section>
       </div>
       {/* Modal  */}
-      <div>
+      {isOrder&&<div>
         <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex={-1}
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
+            className="modal fade"
+            id="exampleModal"
+            tabIndex={-1}
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
         >
           <div className="modal-dialog">
             <div className="modal-content">
@@ -487,10 +483,10 @@ const [checkValidity, setCheckValidity] = useState(true);
                   Điền thông tin
                 </h5>
                 <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
                 />
               </div>
               <div className="modal-body">
@@ -498,60 +494,60 @@ const [checkValidity, setCheckValidity] = useState(true);
                   <div className="col-lg-12 ">
                     <div className="form-group mt-5">
                       <input
-                        // onChange={handleChangeInput}
-                        name="gmail"
-                        type="text"
-                        className="form-control"
-                        placeholder="Nhập email..."
-                        value={gmail}
+                          // onChange={handleChangeInput}
+                          name="gmail"
+                          type="text"
+                          className="form-control"
+                          placeholder="Nhập email..."
+                          value={gmail}
                       />
                     </div>
                   </div>
                   <div className="col-lg-12 ">
                     <div className="form-group mt-5">
                       <input
-                        // onChange={handleChangeInput}
-                        name="name"
-                        type="text"
-                        className="form-control"
-                        placeholder="Nhập tên người mua..."
-                        value={name}
+                          // onChange={handleChangeInput}
+                          name="name"
+                          type="text"
+                          className="form-control"
+                          placeholder="Nhập tên người mua..."
+                          value={name}
                       />
                     </div>
                   </div>
                   <div className="col-lg-12 ">
                     <div className="form-group mt-5">
                       <input
-                        // onChange={handleChangeInput}
-                        name="gmail"
-                        type="text"
-                        className="form-control"
-                        placeholder="Nhập số điện thoại..."
-                        value={phoneNumber}
+                          // onChange={handleChangeInput}
+                          name="gmail"
+                          type="text"
+                          className="form-control"
+                          placeholder="Nhập số điện thoại..."
+                          value={phoneNumber}
                       />
                     </div>
                   </div>
                   <div className="col-lg-12 ">
                     <div className="form-group mt-5">
                       <input
-                        onChange={handleChangeInput}
-                        name="address"
-                        type="text"
-                        className="form-control"
-                        placeholder="Nhập địa chỉ..."
-                        value={address}
+                          onChange={handleChangeInput}
+                          name="address"
+                          type="text"
+                          className="form-control"
+                          placeholder="Nhập địa chỉ..."
+                          value={address}
                       />
                     </div>
                   </div>
                 </div>
                 <div className="row mt-5">
-                            {/* Render Provinces */}
-                            {renderProvinces()}
-                            {/* Render Districts */}
-                            {renderDistricts()}
-                            {/* Render Wards */}
-                            {renderWards()}
-                        </div>
+                  {/* Render Provinces */}
+                  {renderProvinces()}
+                  {/* Render Districts */}
+                  {renderDistricts()}
+                  {/* Render Wards */}
+                  {renderWards()}
+                </div>
               </div>
               <div className="modal-footer">
                 <button onClick={handleSubmitForm} type="button" className="default-btn btn-bg-three">
@@ -561,7 +557,7 @@ const [checkValidity, setCheckValidity] = useState(true);
             </div>
           </div>
         </div>
-      </div>
+      </div>}
               <ToastContainer
         position="bottom-left"
         autoClose={5000}

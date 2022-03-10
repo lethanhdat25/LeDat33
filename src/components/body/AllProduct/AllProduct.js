@@ -1,4 +1,4 @@
-import { TablePagination } from "@mui/material";
+  import { TablePagination } from "@mui/material";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { filter } from "lodash";
 import React, { useEffect, useState } from "react";
@@ -36,20 +36,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(array, (item) => item.product.regionId === query);
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
+
 
 const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
   const [regions, setRegions] = useState([]);
@@ -61,6 +48,7 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
   const [filterName, setFilterName] = useState("");
   const [products, setProducts] = useState([]);
   const [isAdd, setIsAdd] = useState(0);
+  const [search, setSearch] = useState('');
 
   const dispatch = useDispatch();
 
@@ -89,6 +77,23 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
       console.log(e);
     }
   };
+
+  function applySortFilter(array, comparator, query) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    if (query) {
+      return filter(array, (item) => {
+        return search?item.product.name===query:item.product.regionId === query
+      });
+    }
+    return stabilizedThis.map((el) => el[0]);
+  }
 
   const handleAddToCart = (item) => {
     let isCart = isAdd + 1;
@@ -138,7 +143,7 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
   // ----------------------------------------------------------
 
   const handleFilterByName = (event) => {
-    setFilterName(+event.target.value);
+    setFilterName(search?event.target.value:+event.target.value);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -208,6 +213,21 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
             <div className="product-topper">
               <div className="row">
                 <div className="col-lg-4 col-md-4">
+                  <div className="product-topper-title">
+                    <h3>View All Products <span>( Showing 1-20 of {dataOfPage.length} result )</span></h3>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-4">
+                  <div className="nav-bottom-form-area">
+                    <div className="nav-bottom-form" >
+                      <input type="text" className="form-control" value={search} onChange={(e)=>{
+                        setSearch(e.target.value);
+                        handleFilterByName(e);
+                      }} placeholder="Search Your Item"/>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-4">
                   <div className="product-category">
                     <div className="form-group">
                       <select
@@ -274,9 +294,10 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
                                 <>
                                   {fCurrency(item.product.priceSale * 1000)} /{" "}
                                   {item.product.dvt} / {item.product.weight}{" "}
-                                  <del>
+                                  <del style={{color:'red'}}>
                                     {fCurrency(item.product.price * 1000)}
                                   </del>
+
                                 </>
                               ) : (
                                 <>

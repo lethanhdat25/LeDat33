@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import {dispatchLogin} from '../../../redux/actions/authAction'
 import {useDispatch} from 'react-redux'
 import Loading from '../../utils/Loading/Loading'
+import { setSessionStorage } from '../../../utils/sessionStorage';
 
 
 const initialState = {
@@ -16,8 +17,7 @@ const initialState = {
 function Login() {
     const [user, setUser] = useState(initialState)
     const dispatch = useDispatch()
-    const history = useHistory()
-
+    const history=useHistory();
     const {email, password} = user
 
     const handleChangeInput = e => {
@@ -30,18 +30,15 @@ function Login() {
         e.preventDefault()
         try {
           const res = await axios.post('https://localhost:44349/api/Accounts/login', {email, password})
-
-          console.log('res',res)
+            setSessionStorage(res.data);
 
             localStorage.setItem('firstLogin', true)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('name', res.data.name)
             localStorage.setItem('gmail', res.data.gmail)
             localStorage.setItem('phoneNumber', res.data.phoneNumber)
-
             dispatch(dispatchLogin())
-            history.push("/")
-
+            history.push("/");
         } catch (err) {
            toast.error('Đăng nhập thất bại!')
         }

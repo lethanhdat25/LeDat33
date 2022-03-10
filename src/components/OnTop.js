@@ -2,9 +2,9 @@ import React from "react";
 
 const OnTop = () => {
   return (
-    <a href="/" className="go-top active">
+    <button style={{border:'none',backgroundColor:'green'}} className="go-top active" onClick={()=>window.scrollTo(0,0)}>
       <i className="bx bx-chevrons-up"></i>
-    </a>
+    </button>
   );
 };
 

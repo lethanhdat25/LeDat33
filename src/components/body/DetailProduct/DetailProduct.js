@@ -83,6 +83,7 @@ const DetailProduct = ({ match }) => {
     removeCartItems();
     setCartItems(cartItems);
   };
+  console.log(product);
   return (
     <>
       <ToastContainer
@@ -159,17 +160,16 @@ const DetailProduct = ({ match }) => {
                           {product &&
                             fCurrency(product.product.priceSale * 1000)}
                         </span>
-                        <span className="old-price">
+                        <span className="old-price" style={{color:'red'}}>
                           {product && fCurrency(product.product.price * 1000)}
                         </span>
                       </>
                     ) : (
-                      <>
                         <span className="new-price">
-                          ${product && fCurrency(product.product.price * 1000)}
+                          {product && fCurrency(product.product.price * 1000)}
                         </span>
-                      </>
                     )}
+                    (1 {product &&`${product.product.dvt}-${product.product.weight}`})
                   </div>
                   <p> {product && product.product.description}</p>
                   <div className="input-count-area">
