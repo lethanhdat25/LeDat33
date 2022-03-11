@@ -13,7 +13,7 @@ function Home() {
     <>
     <Loading/>
       <Banner />
-      <Brand/>
+      {/*<Brand/>*/}
       <Offer/>
       <PopularProduct/>
       <Choose/>
@@ -24,14 +24,10 @@ function Home() {
             <div className="col-lg-6">
               <div className="section-title">
                 <span>
-                  Get 35% Discount, <b> Subscribe Now</b>
+                  Giảm đến 35%, <b> Đăng ký ngay</b>
                 </span>
-                <h2>Subscribe to Our Newsletters</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                  aliquy erat, sed diam voluptua. At vero eos et.
-                </p>
+                <h2>Đăng ký thông báo thông tin về sản phẩm mới của chúng tôi</h2>
+
               </div>
               <div className="newsletter-area-two newsletter-area-three">
                 <form
