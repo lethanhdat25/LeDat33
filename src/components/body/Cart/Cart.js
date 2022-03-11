@@ -10,12 +10,17 @@ import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
   import Loading from '../../utils/Loading/Loading'
 import {fCurrency} from '../../utils/FormatCost';
+import {useDispatch} from 'react-redux';
+import {unwrapResult} from '@reduxjs/toolkit';
+import {editUser} from '../../../redux/reducers/user';
+import {setSessionStorage} from '../../../utils/sessionStorage';
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
   const [ship] = useState(30);
   const [amount, setAmount] = useState([]);
   const [isOrder, setIsOrder] = useState(false);
+  const dispatch=useDispatch();
   const resetCartItems = (id, amount) => {
     const newCartItems = cart.map((item) => {
       if (item.id === id) {
@@ -103,6 +108,9 @@ const Cart = () => {
   const [selectProvince, setSelectProvince] = useState(undefined);
   const [selectDistrict, setSelectDistrict] = useState(undefined);
   const [selectWard, setSelectWard] = useState(undefined);
+  const [userProvince, setUserProvince] = useState('');
+  const [userDistrict, setUserDistrict] = useState('');
+  const [userWard, setUserWard] = useState('');
   // ----------------------
   useEffect(() => {
     setName(localStorage.getItem("name"));
@@ -113,9 +121,10 @@ const Cart = () => {
     fetchUser();
   }, [gmail]);
 
+  console.log(user);
   useEffect(() => {
-    if(user){
-      setAddress(user.userAddress)
+    if(user.name){
+      setAddress(user.userAddress.split(' - ')[0]);
     }
   }, [user]);
 
@@ -202,7 +211,21 @@ const [checkValidity, setCheckValidity] = useState(true);
                  })
             });
 
-            removeCartItems()
+          const editUserRes=await dispatch(editUser({
+            id:user.id,
+            accountPassword:user.accountPassword,
+            userAddress:`${address} - ${userWard} - ${userDistrict} - ${userProvince}`
+          }));
+          localStorage.removeItem('name');
+          localStorage.removeItem('gmail');
+          localStorage.removeItem('phoneNumber');
+          localStorage.setItem('name', editUserRes.payload.name)
+          localStorage.setItem('gmail', editUserRes.payload.gmail)
+          localStorage.setItem('phoneNumber', editUserRes.payload.phoneNumber)
+          setSessionStorage(editUserRes.payload);
+          unwrapResult(editUserRes);
+
+            removeCartItems();
             getData();
             window.location.href='/products';
             toast.success('Đặt hàng thành công')
@@ -225,6 +248,8 @@ const [checkValidity, setCheckValidity] = useState(true);
           required=""
           value={selectProvince}
           onChange={(e) => {
+            const indexOfWard = e.target.value;
+            setUserProvince(provinces[indexOfWard].name);
             setSelectProvince(e.target.value);
           }}
         >
@@ -250,6 +275,7 @@ const [checkValidity, setCheckValidity] = useState(true);
           value={selectDistrict}
           onChange={(e) => {
             const indexOfWard = e.target.value;
+            setUserDistrict(districts[selectProvince][indexOfWard].name);
             setSelectDistrict(e.target.value);
           }}
         >
@@ -275,6 +301,7 @@ const [checkValidity, setCheckValidity] = useState(true);
           value={selectWard}
           onChange={(e) => {
             const indexOfWard = e.target.value;
+            setUserWard(wards[selectProvince][selectDistrict][indexOfWard].name);
             setSelectWard(indexOfWard);
           }}
         >

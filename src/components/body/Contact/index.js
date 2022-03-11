@@ -134,8 +134,7 @@ const Contact = () => {
   </div>
   <div className="map-area">
     <div className="container-fluid m-0 p-0">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.7518096941076!2d108.24853991477676!3d15.980868288935552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142108fec82aac7%3A0x5bfbc606b8eae2c9!2zMjAtNDIgTmd1eeG7hW4gVOG6oW8sIEhvw6AgSOG6o2ksIE5nxakgSMOgbmggU8ahbiwgxJDDoCBO4bq1bmcgNTUwMDAwLCBWaWV0bmFt!5e1!3m2!1sen!2sbd!4v1646582000832!5m2!1sen!2sbd"  />
-
+      <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1hAq3gtaICmSrnS_fRoQiBvD8zSIgMSy1&ehbc=2E312F" ></iframe>
     </div>
   </div>
 </div>
