@@ -10,8 +10,8 @@ const Banner = () => {
         <div className="banner-content-2">
           <span><b>Giảm giá đến 35%,</b> Mỗi sản phẩm </span>
           <h2>Chất lượng là hàng đầu</h2>
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscins elitr, seddiams nonumy eirmod.</p>
-          <Link to="/products" className="default-btn btn-bg-three border-radius-5">Shop Now</Link>
+          <p>Mỗi một sản phẩm các bạn mua đều được trích chi phí làm từ thiện cho đồng bào khó khăn</p>
+          <Link to="/products" className="default-btn btn-bg-three border-radius-5">Mua ngay</Link>
         </div>
       </div>
       <div className="col-lg-7">

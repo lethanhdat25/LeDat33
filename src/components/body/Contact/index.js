@@ -29,7 +29,7 @@ const Contact = () => {
   <div className="contact-form-area pt-100 pb-70">
     <div className="container">
       <div className="section-title text-center">
-        <h2>Let's Send Us a Message Below</h2>
+        <h2>Hãy gửi cho chúng tôi những ý kiến đóng góp của bạn !</h2>
       </div>
       <div className="row pt-45 align-items-center">
         <div className="col-lg-6">
@@ -39,55 +39,55 @@ const Contact = () => {
         </div>
         <div className="col-lg-6">
           <div className="contact-form">
-            <h2>Send a Message</h2>
+            <h2>Gửi tin nhắn của bạn</h2>
             <form id="contactForm">
               <div className="row">
                 <div className="col-lg-6">
                   <div className="form-group">
-                    <label>Your Name</label>
-                    <input type="text" name="name" id="name" className="form-control" required data-error="Please enter your name" placeholder="Name" />
+                    <label>Tên của bạn</label>
+                    <input type="text" name="name" id="name" className="form-control" required data-error="Please enter your name" placeholder="Tên của bạn" />
                     <div className="help-block with-errors" />
                   </div>
                 </div>
                 <div className="col-lg-6">
                   <div className="form-group">
-                    <label>Your Email</label>
-                    <input type="email" name="email" id="email" className="form-control" required data-error="Please enter your email" placeholder="Email" />
+                    <label>Email của bạn</label>
+                    <input type="email" name="email" id="email" className="form-control" required data-error="Please enter your email" placeholder="Email của bạn" />
                     <div className="help-block with-errors" />
                   </div>
                 </div>
                 <div className="col-lg-6">
                   <div className="form-group">
-                    <label>Phone Number</label>
-                    <input type="text" name="phone_number" id="phone_number" required data-error="Please enter your number" className="form-control" placeholder="Phone" />
+                    <label>Số điện thoại của bạn</label>
+                    <input type="text" name="phone_number" id="phone_number" required data-error="Please enter your number" className="form-control" placeholder="Số điện thoại của bạn" />
                     <div className="help-block with-errors" />
                   </div>
                 </div>
                 <div className="col-lg-6">
                   <div className="form-group">
-                    <label>Your Subject</label>
-                    <input type="text" name="msg_subject" id="msg_subject" className="form-control" required data-error="Please enter your subject" placeholder="Your Subject" />
+                    <label>Vấn đề của bạnt</label>
+                    <input type="text" name="msg_subject" id="msg_subject" className="form-control" required data-error="Please enter your subject" placeholder="Vấn đề của bạn" />
                     <div className="help-block with-errors" />
                   </div>
                 </div>
                 <div className="col-lg-12 col-md-12">
                   <div className="form-group">
-                    <label>Your Message</label>
-                    <textarea name="message" className="form-control" id="message" cols={30} rows={8} required data-error="Write your message" placeholder="Your Message" defaultValue={""} />
+                    <label>Lời nhắn gửi đến chúng tôi</label>
+                    <textarea name="message" className="form-control" id="message" cols={30} rows={8} required data-error="Write your message" placeholder="Lời nhắn gửi đến chúng tôi..." defaultValue={""} />
                     <div className="help-block with-errors" />
                   </div>
                 </div>
-                <div className="col-lg-12 col-md-12">
-                  <div className="agree-label">
-                    <input type="checkbox" id="chb1" />
-                    <label htmlFor="chb1">
-                      Accept <a href="terms-condition.html">Terms &amp; Conditions</a> And <a href="privacy-policy.html">Privacy Policy.</a>
-                    </label>
-                  </div>
-                </div>
+                {/*<div className="col-lg-12 col-md-12">*/}
+                {/*  <div className="agree-label">*/}
+                {/*    <input type="checkbox" id="chb1" />*/}
+                {/*    <label htmlFor="chb1">*/}
+                {/*      Accept <a href="terms-condition.html">Terms &amp; Conditions</a> And <a href="privacy-policy.html">Privacy Policy.</a>*/}
+                {/*    </label>*/}
+                {/*  </div>*/}
+                {/*</div>*/}
                 <div className="col-lg-12 col-md-12">
                   <button type="submit" className="default-btn btn-bg-three">
-                    Send Message
+                    Gửi
                   </button>
                   <div id="msgSubmit" className="h3 text-center hidden" />
                   <div className="clearfix" />
@@ -102,31 +102,30 @@ const Contact = () => {
   <div className="contact-area pb-70">
     <div className="container">
       <div className="section-title text-center">
-        <h2>Get in Touch</h2>
+        <h2>Liên lạc</h2>
       </div>
       <div className="row pt-45">
         <div className="col-lg-4 col-sm-6">
           <div className="contact-card">
             <i className="bx bx-phone-call" />
-            <h3>Call Number</h3>
-            <span><a href="tel:+1-(123)-456-7890">+1 (123) 456 7890</a></span>
-            <span><a href="tel:+1-(123)-656-6790">+1 (123) 656 6790</a></span>
+            <h3>Số điện thoại</h3>
+            <span><a href="tel:0916218666">+84 916 21 8666</a></span>
+            <span><a href="tel:0378828686">+84 378 82 8686</a></span>
           </div>
         </div>
         <div className="col-lg-4 col-sm-6">
           <div className="contact-card">
             <i className="bx bxs-map" />
-            <h3>Address</h3>
-            <span>124 Virgil A Virginia, USA</span>
-            <span>194 Virgil B Virginia, USA</span>
+            <h3>Địa chỉ</h3>
+            <span>52 Văn Trì, P.Minh Khai, Nam Từ Liêm, Hà Nộ Hà Nội 100000</span>
           </div>
         </div>
         <div className="col-lg-4 col-sm-6 offset-lg-0 offset-sm-3">
           <div className="contact-card">
             <i className="bx bx-message" />
-            <h3>Contact Info</h3>
-            <span><a href="/cdn-cgi/l/email-protection#68000d0404072800010407460b0705"><span className="__cf_email__" data-cfemail="5e363b3232311e36373231703d3133">[email&nbsp;protected]</span></a></span>
-            <span><a href="/cdn-cgi/l/email-protection#61080f070e2109080d0e4f020e0c"><span className="__cf_email__" data-cfemail="0d64636b624d65646162236e6260">[email&nbsp;protected]</span></a></span>
+            <h3>Email</h3>
+            <span><a href="mailto: knightstork.work@gmail.com"><span className="__cf_email__" data-cfemail="5e363b3232311e36373231703d3133">knightstork.work@gmail.com</span></a></span>
+            <span><a href="mailto: dieplongjsc@gmail.com"><span className="__cf_email__" data-cfemail="5e363b3232311e36373231703d3133">dieplongjsc@gmail.com</span></a></span>
           </div>
         </div>
       </div>

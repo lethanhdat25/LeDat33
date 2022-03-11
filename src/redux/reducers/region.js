@@ -14,6 +14,11 @@ export const getRegions = createAsyncThunk("get list region", async () => {
   return res.data;
 });
 
+export const getRegionById = createAsyncThunk('Get Region By Id', async (params) => {
+  const res = await regionApi.getRegionById(params);
+  return res.data;
+});
+
 const region = createSlice({
   name: "province",
   initialState,
@@ -29,6 +34,16 @@ const region = createSlice({
       state.data = action.payload;
     },
     [getRegions.rejected]: (state, action) => {
+      state.pending = false;
+      state.failed = true;
+      state.message = action.error.message;
+    },
+    [getRegionById.fulfilled]: (state, action) => {
+      state.pending = false;
+      state.success = true;
+      state.data = action.payload;
+    },
+    [getRegionById.rejected]: (state, action) => {
       state.pending = false;
       state.failed = true;
       state.message = action.error.message;

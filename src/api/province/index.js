@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const url = "https://localhost:44349/api/Regions/";
-export const regionApi = {
+const url = "https://localhost:44349/api/Provinces/";
+export const provincesApi = {
   getData: async () => {
     return await axios.get(url);
   },
-  getRegionById: async (id)=>{
+  getProvinceById: async (id)=>{
     return await  axios.get(url+id);
   },
 };

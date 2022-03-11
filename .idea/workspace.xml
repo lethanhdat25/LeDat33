@@ -2,8 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="572809d6-613b-4aad-a3af-3b11a4ff5f5c" name="Changes" comment="s">
+      <change afterPath="$PROJECT_DIR$/src/api/province/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/province.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/body/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/body/home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/regions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/regions/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/body/AllProduct/AllProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/body/AllProduct/AllProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/body/Contact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/body/Contact/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/body/DetailProduct/DetailProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/body/DetailProduct/DetailProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/body/home/Banner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/body/home/Banner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/body/home/PopularProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/body/home/PopularProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/footer/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/utils/Loading/Loading.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/utils/Loading/Loading.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/region.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/region.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +50,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/api" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -43,13 +58,15 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\SonBui\OneDrive\Máy tính\LeDat33\src\api" />
+      <recent name="C:\Users\SonBui\OneDrive\Máy tính\LeDat33\public" />
       <recent name="C:\Users\SonBui\OneDrive\Máy tính\LeDat33\public\assets" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b72ce9b6-3e01-4e73-8639-f070b502c7e1" name="Changes" comment="" />
+      <changelist id="572809d6-613b-4aad-a3af-3b11a4ff5f5c" name="Changes" comment="s" />
       <created>1646922877597</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -58,6 +75,11 @@
       <workItem from="1646924515228" duration="8996000" />
       <workItem from="1646934350378" duration="470000" />
       <workItem from="1646934841569" duration="134000" />
+      <workItem from="1646975792653" duration="714000" />
+      <workItem from="1646976773374" duration="1757000" />
+      <workItem from="1646987599446" duration="22000" />
+      <workItem from="1646987638439" duration="8522000" />
+      <workItem from="1647001906758" duration="12417000" />
     </task>
     <task id="LOCAL-00001" summary="son">
       <created>1646933834271</created>
@@ -80,7 +102,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646966407065</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="s">
+      <created>1646975824873</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1646975824873</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

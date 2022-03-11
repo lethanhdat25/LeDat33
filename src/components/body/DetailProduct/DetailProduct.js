@@ -5,6 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import { useDispatch } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
+
 import {
   getCartItems,
   removeCartItems,
@@ -13,10 +16,16 @@ import {
 import { fCurrency } from "../../utils/FormatCost";
 import Loading from "../../utils/Loading/Loading";
 import RelatedProduct from "./RelatedProduct";
+import { getRegionById } from "../../../redux/reducers/region";
+import { getProvinceById } from "../../../redux/reducers/province";
 
 const DetailProduct = ({ match }) => {
+  const [regions, setRegions] = useState([]);
+  const [province, setProvince] = useState([]);
+
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
   const settings = {
     dots: true,
     infinite: true,
@@ -32,16 +41,28 @@ const DetailProduct = ({ match }) => {
       setQuantity(quantity - 1);
     }
   };
+
   const getDetailProduct = async () => {
+
     await axios
       .get(`https://localhost:44349/api/Products/${match.params.id}`)
-      .then((res) => {
+      .then(async(res) => {
         setProduct(res.data);
+
+        const resRegion = await dispatch(getRegionById(res.data.product.regionId));
+        unwrapResult(resRegion);
+        setRegions(resRegion.payload.name);
+
+        const resProvince = await dispatch(getProvinceById(res.data.product.regionId));
+        unwrapResult(resProvince);
+        const findProvince=resProvince.payload.province["$values"].find(item=>item.id===res.data.product.provinceId);
+        setProvince(findProvince.name);
       })
       .catch((err) => {
         toast.error(err);
       });
   };
+
   useEffect(() => {
     getDetailProduct();
   }, [match.params.id]);
@@ -156,13 +177,14 @@ const DetailProduct = ({ match }) => {
                   <div className="price">
                     {product && product.product.priceSale > 0 ? (
                       <>
+                        <span className="old-price">
+                          {product && fCurrency(product.product.price * 1000)}
+                        </span>
                         <span className="new-price">
                           {product &&
                             fCurrency(product.product.priceSale * 1000)}
                         </span>
-                        <span className="old-price" style={{color:'red'}}>
-                          {product && fCurrency(product.product.price * 1000)}
-                        </span>
+
                       </>
                     ) : (
                         <span className="new-price">
@@ -171,30 +193,44 @@ const DetailProduct = ({ match }) => {
                     )}
                     (1 {product &&`${product.product.dvt}-${product.product.weight}`})
                   </div>
-                  <p> {product && product.product.description}</p>
-                  <div className="input-count-area">
-                    <h3>Số lượng</h3>
-                    <div className="input-counter">
+                  <div className="Region">
+                    <div>
+                      <span className='title-region'>Thuộc vùng : {regions}</span>
+                    </div>
+                    <div>
+                      <span className='title-region'>Tỉnh : {province}</span>
+                    </div>
+
+                  </div>
+                  <p>Mô tả sản phẩm: </p>
+                  <div className='description'>
+                    {product && product.product.description}
+                  </div>
+                  <div className='flex-item'>
+                    <div className="input-count-area">
+                      <h3>Số lượng</h3>
+                      <div className="input-counter">
                       <span onClick={giamSoLuong} className="minus-btn">
                         <i className="bx bx-minus" />
                       </span>
-                      <input type="text" value={quantity} />
-                      <span onClick={tangSoLuong} className="plus-btn">
+                        <input type="text" value={quantity} />
+                        <span onClick={tangSoLuong} className="plus-btn">
                         <i className="bx bx-plus" />
                       </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="product-add-btn">
-                    {/* <button type="submit" className="default-btn btn-bg-three">
+                    <div className="product-add-btn">
+                      {/* <button type="submit" className="default-btn btn-bg-three">
                 <i className="fas fa-cart-plus" /> Mua ngay
               </button> */}
-                    <button
-                      onClick={handleAddToCart}
-                      type="submit"
-                      className="default-btn btn-bg-three"
-                    >
-                      <i className="fas fa-cart-plus" /> Thêm giỏ hàng
-                    </button>
+                      <button
+                          onClick={handleAddToCart}
+                          type="submit"
+                          className="default-btn btn-bg-three"
+                      >
+                        <i className="fas fa-cart-plus" /> Thêm giỏ hàng
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -42,7 +42,7 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
   const [regions, setRegions] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
   const [order] = useState("asc");
   const [orderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
@@ -214,7 +214,7 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
               <div className="row">
                 <div className="col-lg-4 col-md-4">
                   <div className="product-topper-title">
-                    <h3>View All Products <span>( Showing 1-20 of {dataOfPage.length} result )</span></h3>
+                    <h3>Tất cả sản phẩm của chúng tôi</h3>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-4">
@@ -223,18 +223,18 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
                       <input type="text" className="form-control" value={search} onChange={(e)=>{
                         setSearch(e.target.value);
                         handleFilterByName(e);
-                      }} placeholder="Search Your Item"/>
+                      }} placeholder="Nhập tên sản phẩm bạn muốn tìm"/>
                     </div>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-4">
-                  <div className="product-category">
+                  <div className="product-category chose-product-cate">
                     <div className="form-group">
                       <select
                         className="form-control"
                         onChange={(e) => handleFilterByName(e)}
                       >
-                        <option value="">Tất Cả</option>
+                        <option value="">Chọn vùng miền sản phẩm</option>
                         {regions.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.name}
@@ -247,7 +247,7 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
               </div>
             </div>
             <div className="row">
-              {dataOfPage ? (
+              {dataOfPage.length > 0 ? (
                 dataOfPage.map((item, index) => {
                   if (item.product.name) {
                     return (
@@ -260,9 +260,11 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
                                 alt="Product Images"
                               />
                             </Link>
-                            {index < 5 && (
+                            {item.product.priceSale >0 && (
                               <div className="product-item-tag">
-                                <h3>Mới</h3>
+                                <h3>
+                                  {(100 - (item.product.priceSale * 100 / item.product.price )).toFixed(0)}%
+                                </h3>
                               </div>
                             )}
                             <ul className="product-item-action">
@@ -290,21 +292,19 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
                               </Link>
                             </h3>
                             <span>
-                              {item.product.priceSale > 0 ? (
-                                <>
-                                  {fCurrency(item.product.priceSale * 1000)} /{" "}
-                                  {item.product.dvt} / {item.product.weight}{" "}
-                                  <del style={{color:'red'}}>
-                                    {fCurrency(item.product.price * 1000)}
-                                  </del>
 
-                                </>
-                              ) : (
-                                <>
-                                  {fCurrency(item.product.price * 1000)} /{" "}
-                                  {item.product.dvt} / {item.product.weight}{" "}
-                                </>
-                              )}
+                                {item.product.priceSale > 0 ? (
+                                    <div>
+                                      <div>{fCurrency(item.product.priceSale)} /{" "}
+                                        {item.product.dvt} / {item.product.weight}{" "}</div>
+                                    </div>
+                                ) : (
+                                    <>
+                                      {fCurrency(item.product.price)} /{" "}
+                                      {item.product.dvt} / {item.product.weight}{" "}
+                                    </>
+                                )}
+
                             </span>
                           </div>
                         </div>
@@ -313,7 +313,7 @@ const AllProduct = ({ listProducts, getAllProduct, getToTalCart }) => {
                   }
                 })
               ) : (
-                <h2>Sản Phẩm hiện không tồn tại</h2>
+                <center> <h2 >Sản Phẩm hiện không tồn tại</h2></center>
               )}
               <div className="col-lg-12 col-md-12 text-center">
                 <TablePagination

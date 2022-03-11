@@ -13,7 +13,7 @@ const Loading = () => {
   <div className="d-table">
     <div className="d-table-cell">
       <img  src="../assets/images/preloder-img.png" alt="Images" />
-      <h4>Đặc sản vùng miền</h4>
+      <h4>Đặc Sản Vùng Miền Số 1 Việt Nam</h4>
     </div>
   </div>
 </div> }
